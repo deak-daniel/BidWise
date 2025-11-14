@@ -1,29 +1,35 @@
 from backend.infrastructure.model.UserDto import UserDto
-from backend.infrastructure.mappings.user_mapper import *
-from sqlalchemy.orm import Session
+from backend.infrastructure.mappings.UserMapper import UserMapper
+from backend.database.database import SessionLocal, engine, Base
+from backend.infrastructure.entities import UserBdo
 import hashlib
 from backend.infrastructure.services.JwtService import *
 
-db = Session()
+db = SessionLocal()
 
 class UserService:
     @staticmethod
     def authenticate_user(username: str, password: str):
-        user = db.query().filter(UserBdo.username == username).all()
+        user = db.query(UserBdo).filter(UserBdo.username == username).first()
         if not user:
             return False
-        if not verify_password(password, user.hashed_password):
+        if not JwtService.verify_password(password, user.password):
             return False
         return user
 
     @staticmethod
-    def create_user_async(user: UserDto, db: Session) -> dict[str,str]:
-        password = user.password.encode('utf-8')
-        hashed = hashlib.sha256(password).hexdigest()
-        user.password = hashed
-        entity = to_user_bdo(user)
+    def create_user_async(user: UserDto, db) -> dict[str,str]:
+        user.password = JwtService.get_password_hash(user.password)
+        entity = UserMapper.to_user_bdo(user)
         db.add(entity)
         db.commit()
-        access_token = create_access_token(data={"sub": entity.username})
+        access_token = JwtService.create_access_token(data={"sub": entity.username})
         return access_token
+    
+    @staticmethod
+    def me(token):
+        data = JwtService.decodeToken(token)
+        username = data["sub"]
+        user = db.query(UserBdo).filter(UserBdo.username == username).first()
+        return user
 
