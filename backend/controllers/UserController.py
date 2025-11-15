@@ -1,15 +1,20 @@
-from fastapi import FastAPI
+from fastapi import APIRouter
 from backend.infrastructure.model.UserDto import *
 from backend.infrastructure.services.UserService import *
 
-app = FastAPI()
-@app.post("/User/Register")
+router = APIRouter(
+    prefix="/User",
+    tags=["User"],
+    responses={404: {"description": "Not found"}}
+)
+
+@router.post("/Register")
 def create_user(user: UserDto):
     token = UserService.create_user_async(user, db)
     return token 
 
 
-@app.post("/User/Login")
+@router.post("/Login")
 async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> Token:
     user = UserService.authenticate_user(form_data.username, form_data.password)
     print(user)
@@ -23,7 +28,7 @@ async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm,
     return Token(access_token=access_token, token_type="bearer")
 
 
-@app.get("/User/me")
+@router.get("/me")
 def me(token: Annotated[str, Depends(oauth2_scheme)]):
     user = UserService.me(token)
     return user
