@@ -1,7 +1,7 @@
 from backend.infrastructure.model.UserDto import UserDto
 from backend.infrastructure.mappings.UserMapper import UserMapper
 from backend.database.database import SessionLocal, engine, Base
-from backend.infrastructure.entities import UserBdo
+from backend.infrastructure.entities.UserBdo import UserBdo
 import hashlib
 from backend.infrastructure.services.JwtService import *
 
@@ -23,8 +23,6 @@ class UserService:
         entity = UserMapper.to_user_bdo(user)
         db.add(entity)
         db.commit()
-        access_token = JwtService.create_access_token(data={"sub": entity.username})
-        return access_token
     
     @staticmethod
     def me(token):

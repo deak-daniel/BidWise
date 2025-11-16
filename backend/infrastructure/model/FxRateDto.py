@@ -1,8 +1,10 @@
-from pydantic.dataclasses import dataclass
+from pydantic import BaseModel, Field
 
-@dataclass
-class FxRateDto():
+class FxRateDto(BaseModel):
     id: int = 0
     fromCurrency: str = ""
     toCurrency: str = ""
     rate: float = ""
+    
+    class Config:
+        orm_mode = True

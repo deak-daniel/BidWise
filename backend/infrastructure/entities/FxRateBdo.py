@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, Double
 from backend.database.database import Base
+from sqlalchemy.orm import relationship
 
 class FxRateBdo(Base):
     __tablename__ = "fxRate"
@@ -8,6 +9,7 @@ class FxRateBdo(Base):
     fromCurrency = Column(String, nullable=False)
     toCurrency = Column(String, nullable=False)
     rate = Column(Double, nullable=False)
+    product = relationship("ProductBdo", back_populates="fxRate")
     
     def __init__(self, id, fromCurrency, toCurrency, rate):
         self.id = id

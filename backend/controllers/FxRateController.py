@@ -3,6 +3,7 @@ from fastapi import Path, APIRouter
 from backend.infrastructure.model.FxRateDto import *
 from backend.infrastructure.services.FxRateService import FxRateService
 from backend.infrastructure.wrapper.HttpMessage import HttpMessage
+from backend.controllers.auth import *
 
 router = APIRouter(
     prefix="/FxRate",
@@ -22,12 +23,12 @@ def get_product(id: Annotated[int, Path(title="The ID of the item to get")]):
 
 
 @router.post("/")
-def add_or_update_product(fx_rate: FxRateDto):
+def add_or_update_product(fx_rate: FxRateDto, user = Depends(get_current_user)):
     FxRateService.add_or_update_product(fx_rate)
     return HttpMessage("Product added")
 
 
 @router.delete("/{id}")
-def add_or_update_product(id: Annotated[int, Path(title="The ID of the item to delete")]):
+def add_or_update_product(id: Annotated[int, Path(title="The ID of the item to delete")], user = Depends(get_current_user)):
     FxRateService.delete_fx_rate(id)
     return HttpMessage("Product deleted")

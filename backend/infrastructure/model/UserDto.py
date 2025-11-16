@@ -1,7 +1,6 @@
-from pydantic.dataclasses import dataclass
+from pydantic import BaseModel, Field
 
-@dataclass
-class UserDto:
+class UserDto(BaseModel):
     id: int = 0
     username: str = ""
     password: str = ""

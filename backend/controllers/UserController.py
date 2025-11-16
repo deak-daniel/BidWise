@@ -1,6 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Cookie, Response
 from backend.infrastructure.model.UserDto import *
 from backend.infrastructure.services.UserService import *
+from backend.controllers.auth import *
 
 router = APIRouter(
     prefix="/User",
@@ -10,25 +11,46 @@ router = APIRouter(
 
 @router.post("/Register")
 def create_user(user: UserDto):
-    token = UserService.create_user_async(user, db)
-    return token 
+    UserService.create_user_async(user, db)
+    return  
 
+@router.post("/Refresh")
+def refresh_token(refresh_token: str = Cookie(None)):
+    if refresh_token is None:
+        raise HTTPException(401, "No refresh token")
+
+    try:
+        payload = JwtService.decodeToken(refresh_token)
+        user = payload["sub"]
+    except:
+        raise HTTPException(401, "Invalid refresh token")
+
+    new_access = JwtService.create_access_token(data={"sub": user})
+    return {"access_token": new_access}
 
 @router.post("/Login")
-async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> Token:
-    user = UserService.authenticate_user(form_data.username, form_data.password)
-    print(user)
-    if not user:
+def login(body: UserDto, response: Response):
+    user = UserService.authenticate_user(body.username, body.password)
+    if user == False:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect username or password",
-            headers={"WWW-Authenticate": "Bearer"},
+            405,
+            "Wrong credentials"
         )
-    access_token = JwtService.create_access_token(data={"sub": user.username})
-    return Token(access_token=access_token, token_type="bearer")
+    access = JwtService.create_access_token(data={"sub": user.username})
+    refresh = JwtService.create_refresh_token(data={"sub": user.username})
+
+    response.set_cookie(
+        key="refresh_token",
+        value=refresh,
+        httponly=True,
+        secure=False, 
+        samesite="lax",
+        max_age=60*60*24*7,
+    )
+    return Token(access_token=access, token_type="bearer")
 
 
 @router.get("/me")
-def me(token: Annotated[str, Depends(oauth2_scheme)]):
+def me(token: Annotated[str, Depends(get_current_user)]):
     user = UserService.me(token)
     return user

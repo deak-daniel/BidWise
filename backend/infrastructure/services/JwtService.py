@@ -14,6 +14,7 @@ load_dotenv("appsettings.env")
 SECRET_KEY = os.getenv("SECRET")
 ALGORITHM = os.getenv("ALGORITHM")
 EXPIRATION = int(os.getenv("JWT_EXPIRATION"))
+REFRESH_EXPIRATION = int(os.getenv("REFRESH_EXPIRATION"))
 
 class Token(BaseModel):
     access_token: str
@@ -41,6 +42,14 @@ class JwtService:
     def create_access_token(data: dict):
         to_encode = data.copy()
         expire = datetime.now(timezone.utc) + timedelta(minutes=EXPIRATION)
+        to_encode.update({"exp": expire})
+        encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+        return encoded_jwt
+
+    @staticmethod
+    def create_refresh_token(data: dict):
+        to_encode = data.copy()
+        expire = datetime.now(timezone.utc) + timedelta(days=REFRESH_EXPIRATION)
         to_encode.update({"exp": expire})
         encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
         return encoded_jwt
