@@ -4,15 +4,15 @@ from backend.database.database import Base
 
 class ProductBdo(Base):
     __tablename__ = "product"
+    __table_args__ = {"sqlite_autoincrement": True}
     
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
-    cost = Column(Double, nullable=False)
-    fxRateId = Column(Integer, ForeignKey("fxRate.id"))
-    fxRate = relationship("FxRateBdo", back_populates="product")
+    weight = Column(Double, nullable=False)
+    price = Column(Double, nullable=False)
     
-    def __init__(self, id, name, cost, fxRateId):
+    def __init__(self, id, name, weight, price):
         self.id = id
         self.name = name
-        self.cost = cost
-        self.fxRateId = fxRateId
+        self.weight = weight
+        self.price = price

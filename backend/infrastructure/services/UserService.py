@@ -23,11 +23,4 @@ class UserService:
         entity = UserMapper.to_user_bdo(user)
         db.add(entity)
         db.commit()
-    
-    @staticmethod
-    def me(token):
-        data = JwtService.decodeToken(token)
-        username = data["sub"]
-        user = db.query(UserBdo).filter(UserBdo.username == username).first()
-        return user
 

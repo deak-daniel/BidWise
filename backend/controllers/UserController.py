@@ -22,10 +22,11 @@ def refresh_token(refresh_token: str = Cookie(None)):
     try:
         payload = JwtService.decodeToken(refresh_token)
         user = payload["sub"]
+        role = payload["role"]
     except:
         raise HTTPException(401, "Invalid refresh token")
 
-    new_access = JwtService.create_access_token(data={"sub": user})
+    new_access = JwtService.create_access_token(data={"sub": user, "role":role})
     return {"access_token": new_access}
 
 @router.post("/Login")
@@ -36,8 +37,8 @@ def login(body: UserDto, response: Response):
             405,
             "Wrong credentials"
         )
-    access = JwtService.create_access_token(data={"sub": user.username})
-    refresh = JwtService.create_refresh_token(data={"sub": user.username})
+    access = JwtService.create_access_token(data={"sub": user.username, "role":user.role})
+    refresh = JwtService.create_refresh_token(data={"sub": user.username, "role":user.role})
 
     response.set_cookie(
         key="refresh_token",
@@ -50,7 +51,7 @@ def login(body: UserDto, response: Response):
     return Token(access_token=access, token_type="bearer")
 
 
-@router.get("/me")
-def me(token: Annotated[str, Depends(get_current_user)]):
-    user = UserService.me(token)
+@router.get("/Me")
+def me(username: Annotated[str, Depends(get_current_user)]):
+    user = db.query(UserBdo).filter(UserBdo.username == username).first()
     return user

@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 
 class FxRateBdo(Base):
     __tablename__ = "fxRate"
+    __table_args__ = {"sqlite_autoincrement": True}
     
     id = Column(Integer, primary_key=True, index=True)
     fromCurrency = Column(String, nullable=False)

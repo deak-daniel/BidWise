@@ -2,6 +2,10 @@ from backend.database.database import Base, engine, SQLALCHEMY_DATABASE_URL
 from backend.infrastructure.entities.ProductBdo import ProductBdo
 from backend.infrastructure.entities.FxRateBdo import FxRateBdo
 from backend.infrastructure.entities.UserBdo import UserBdo
+from backend.infrastructure.entities.TrainBdo import TrainBdo
+from backend.infrastructure.entities.ShipmentBdo import ShipmentBdo
+from backend.infrastructure.entities.StationBdo import StationBdo
+from backend.infrastructure.entities.CreatedQuotationBdo import CreatedQuotationBdo
 import os
 import sqlite3
 from concurrent.futures import ThreadPoolExecutor
@@ -16,7 +20,7 @@ def main():
     print("Starting backend and frontend")
     with ThreadPoolExecutor(max_workers=2) as executor:
         executor.submit(lambda: os.system("fastapi dev ./backend/backend_main.py"))
-        executor.submit(lambda: os.system("streamlit run ./frontend/mainPage.py"))
+        executor.submit(lambda: os.system("streamlit run ./frontend/Home.py"))
 
     
 

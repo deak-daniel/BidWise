@@ -13,7 +13,7 @@ class FxRateMapper:
         )
 
     @staticmethod
-    def to_product_dto(fx_rate_bdo: FxRateBdo) -> FxRateDto:
+    def to_fx_rate_dto(fx_rate_bdo: FxRateBdo) -> FxRateDto:
         return FxRateDto(
             id = fx_rate_bdo.id,
             toCurrency = fx_rate_bdo.toCurrency,

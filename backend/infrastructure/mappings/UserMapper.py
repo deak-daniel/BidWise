@@ -6,7 +6,6 @@ class UserMapper:
     @staticmethod
     def to_user_bdo(user_dto) -> UserBdo:
         return UserBdo(
-            id = user_dto.id,
             username = user_dto.username,
             password = user_dto.password,
             role = user_dto.role

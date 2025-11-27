@@ -23,12 +23,12 @@ def get_product(id: Annotated[int, Path(title="The ID of the item to get")]):
 
 
 @router.post("/")
-def add_or_update_product(fx_rate: FxRateDto, user = Depends(get_current_user)):
+def add_or_update_product(fx_rate: FxRateDto, user = Depends(get_current_user), role = Depends( is_admin)):
     FxRateService.add_or_update_product(fx_rate)
     return HttpMessage("Product added")
 
 
 @router.delete("/{id}")
-def add_or_update_product(id: Annotated[int, Path(title="The ID of the item to delete")], user = Depends(get_current_user)):
+def add_or_update_product(id: Annotated[int, Path(title="The ID of the item to delete")], user = Depends(get_current_user), role = Depends( is_admin)):
     FxRateService.delete_fx_rate(id)
     return HttpMessage("Product deleted")
