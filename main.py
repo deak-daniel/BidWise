@@ -1,4 +1,4 @@
-from backend.database.database import Base, engine, SQLALCHEMY_DATABASE_URL
+from backend.database.database import Base, engine, SQLALCHEMY_DATABASE_URL, seed_data
 from backend.infrastructure.entities.ProductBdo import ProductBdo
 from backend.infrastructure.entities.FxRateBdo import FxRateBdo
 from backend.infrastructure.entities.UserBdo import UserBdo
@@ -15,6 +15,7 @@ def start_backend():
 def main():
     print("Creating database")
     Base.metadata.create_all(bind=engine)
+    #seed_data()
     print("Database created")
     
     print("Starting backend and frontend")

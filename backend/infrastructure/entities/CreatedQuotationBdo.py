@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, Double, DateTime
 from backend.database.database import Base
 
 class CreatedQuotationBdo(Base):
-    __tablename__ = "created_quotation"
+    __tablename__ = "Created_quotation"
     __table_args__ = {"sqlite_autoincrement": True}
     
     id = Column(Integer, primary_key=True, index=True)

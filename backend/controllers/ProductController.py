@@ -29,6 +29,6 @@ def add_or_update_product(product: ProductDto, user = Depends(get_current_user),
 
 
 @router.delete("/{id}")
-def add_or_update_product(id: Annotated[int, Path(title="The ID of the item to delete")], user = Depends(get_current_user), role = Depends( is_admin)):
+def delete_product(id: Annotated[int, Path(title="The ID of the item to delete")], user = Depends(get_current_user), role = Depends( is_admin)):
     ProductService.delete_product(id)
     return HttpMessage("Product deleted")

@@ -5,6 +5,7 @@ class ShipmentDto(BaseModel):
     sourceStationId: int = 0
     destStationId: int = 0
     trainId: int = 0
+    productId: int = 0
     
     class Config:
         orm_mode = True

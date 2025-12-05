@@ -6,18 +6,11 @@ def parseProduct(jsonData):
     output = []
     for j in jsonData:
 
-        fxRate = FxRateDto(
-            id = j["fxRate"]["id"],
-            fromCurrency = j["fxRate"]["fromCurrency"],
-            toCurrency = j["fxRate"]["toCurrency"],
-            rate = j["fxRate"]["rate"],
-        )
         prod = ProductDto(
             id = j["id"],
             name = j["name"],
-            cost = j["cost"],
-            currency = j["currency"],
-            fxRate = fxRate
+            price = j["price"],
+            weight = j["weight"],
         )
         output.append(prod)
     
@@ -27,13 +20,6 @@ def to_json(product_dto: ProductDto):
     return {
         "id":product_dto.id, 
         "name":product_dto.name, 
-        "cost":product_dto.cost, 
-        "currency":product_dto.currency, 
-        "fxRate":
-        {
-            "id":product_dto.fxRate.id, 
-            "toCurrency":product_dto.fxRate.toCurrency,
-            "fromCurrency":product_dto.fxRate.fromCurrency,
-            "rate":product_dto.fxRate.rate
-        }
+        "price":product_dto.price, 
+        "weight":product_dto.weight, 
     }

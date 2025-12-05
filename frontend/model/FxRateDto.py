@@ -1,3 +1,4 @@
+
 class FxRateDto():
     id: int = 0
     fromCurrency: str = ""

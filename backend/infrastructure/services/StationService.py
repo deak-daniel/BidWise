@@ -6,8 +6,8 @@ from sqlalchemy.orm import selectinload
 
 db = SessionLocal()
 
-class StationMapper:
-    def get_sstations():
+class StationService:
+    def get_stations():
         return db.query(StationBdo).all()
     
     def get_station_id(id: int):

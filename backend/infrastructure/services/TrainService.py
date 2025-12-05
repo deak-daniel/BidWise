@@ -3,12 +3,15 @@ from backend.infrastructure.mappings.TrainMapper import TrainMapper
 from backend.database.database import SessionLocal, engine, Base
 from backend.infrastructure.entities.TrainBdo import TrainBdo
 from sqlalchemy.orm import selectinload
+from sqlalchemy import select
 
 db = SessionLocal()
 
 class TrainService:
     def get_train():
-        return db.query(TrainBdo).all()
+        stmt = select(TrainBdo).options(selectinload(TrainBdo.shipments))
+        trains = db.scalars(stmt).unique().all()
+        return trains
     
     def get_train_id(id: int):
         return db.query(TrainBdo).filter(TrainBdo.id == id).first()
