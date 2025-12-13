@@ -8,8 +8,7 @@ class ProductMapper:
         return ProductBdo(
             id = product_dto.id,
             name = product_dto.name,
-            cost = product_dto.cost,
-            currency = product_dto.currency,
-            fxRateId = product_dto.fxRate.id
+            price = product_dto.price,
+            weight = product_dto.weight
         )
 

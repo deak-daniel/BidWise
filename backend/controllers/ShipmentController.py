@@ -12,14 +12,14 @@ router = APIRouter(
 )
 
 @router.get("/")
-def get_all_products():
+def get_all_shipments():
     return ShipmentService.get_shipments()
 
 
-@router.get("/{id}")
-def get_product(id: Annotated[int, Path(title="The ID of the item to get")]):
-    product = ShipmentService.get_shipment_id(id)
-    return product
+@router.get("/{source_id}/{dest_id}/{product_id}")
+def get_shipment(source_id: Annotated[int, Path(title="Source station id")], dest_id: Annotated[int, Path(title="Destination station id")], product_id:  Annotated[int, Path(title="Product Id")]):
+    shipment = ShipmentService.get_shipment_id(source_id, dest_id, product_id)
+    return shipment
 
 
 @router.post("/")

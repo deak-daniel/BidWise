@@ -13,7 +13,7 @@ def parseStation(jsonData):
     
     return output
 
-def to_json(station_dto: StationDto):
+def station_to_json(station_dto: StationDto):
     return {
         "id":station_dto.id, 
         "name":station_dto.name

@@ -14,9 +14,10 @@ def parseShipment(jsonData):
         )
         output.append(prod)
     
+
     return output
 
-def to_json(shipment_dto: ShipmentDto):
+def station_to_json(shipment_dto: ShipmentDto):
     return {
         "id":shipment_dto.id, 
         "sourceStationId":shipment_dto.sourceStationId, 

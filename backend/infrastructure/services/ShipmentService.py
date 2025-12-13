@@ -19,14 +19,17 @@ class ShipmentService:
         shipments = db.scalars(stmt).unique().all()
         return shipments
     
-    def get_shipment_id(id: int):
+    def get_shipment_id(source_id, dest_id, product_id):
         stmt = select(ShipmentBdo).options(
             joinedload(ShipmentBdo.source_station),
             joinedload(ShipmentBdo.dest_station),
             joinedload(ShipmentBdo.train),
             joinedload(ShipmentBdo.product)
-        ).where(ShipmentBdo.id == id)
+        ).where(ShipmentBdo.sourceStationId == source_id and 
+                ShipmentBdo.destStationId == dest_id and 
+                ShipmentBdo.productId == product_id)
         shipments = db.scalars(stmt).all()
+        print(shipments)
         return shipments
     
     def add_or_update_shipment(shipment: ShipmentDto):

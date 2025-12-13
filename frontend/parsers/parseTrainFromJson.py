@@ -15,7 +15,7 @@ def parseTrain(jsonData):
     
     return output
 
-def to_json(train_dto: TrainDto):
+def train_to_json(train_dto: TrainDto):
     return {
         "id":train_dto.id, 
         "name":train_dto.name, 

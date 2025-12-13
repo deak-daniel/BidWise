@@ -16,7 +16,7 @@ def parseProduct(jsonData):
     
     return output
 
-def to_json(product_dto: ProductDto):
+def product_to_json(product_dto: ProductDto):
     return {
         "id":product_dto.id, 
         "name":product_dto.name, 

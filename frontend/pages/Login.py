@@ -24,7 +24,6 @@ if st.button("Admin Login"):
             user = parseUser(data_dict)
             st.session_state.user = user
         st.success("Logged in!")
-        st.switch_page("Home.py")
     else:
         st.error("Invalid credentials")
 

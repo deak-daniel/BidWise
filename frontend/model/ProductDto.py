@@ -1,5 +1,3 @@
-from model.FxRateDto import FxRateDto
-
 class ProductDto():    
     id: int = 0
     name: str = ""
@@ -13,4 +11,4 @@ class ProductDto():
         self.weight = weight
     
     def __str__(self):
-        return f"{self.name} {self.weight} {self.price}"
+        return f"{self.name}, {self.weight} tonnes, {self.price}"

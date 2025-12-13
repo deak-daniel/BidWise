@@ -12,7 +12,7 @@ def send_with_bearer(url,  http_action: Callable, data = None):
         return None
     
     headers = {"Authorization": f"Bearer {st.session_state.token}"}
-    r = http_action(API + url, data=data, headers=headers)
+    r = http_action(API + url, json=data, headers=headers)
     
     if r.status_code == 401:
         refresh_resp = requests.post(API + "/User/Refresh")
