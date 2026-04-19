@@ -18,7 +18,7 @@ BidWise is a simple quotation management system where **admins** can add product
   - Two main tables: `User` and `Product`
 - **REST API backend (FastAPI)**
   - Endpoints for user management and quotation data
-- **Simple web UI (Streamlit or other frontend)**
+- **Simple web UI (Streamlit)**
   - User-friendly interface for admins and clients
 
 ---
@@ -52,7 +52,7 @@ Contains items that can appear in a quotation.
 ## ⚙️ Tech Stack
 
 - **Backend:** FastAPI (Python)
-- **Frontend:** Streamlit (optional UI)
+- **Frontend:** Streamlit
 - **Database:** SQLite
 - **Dependencies:** SQLAlchemy, Requests, Uvicorn
 
